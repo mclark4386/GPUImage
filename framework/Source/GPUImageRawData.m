@@ -99,7 +99,11 @@
 
     if ([GPUImageOpenGLESContext supportsFastTextureUpload])
     {
+#if defined(__IPHONE_6_0)
+        CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, [[GPUImageOpenGLESContext sharedImageProcessingOpenGLESContext] context], NULL, &rawDataTextureCache);
+#else
         CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, (__bridge void *)[[GPUImageOpenGLESContext sharedImageProcessingOpenGLESContext] context], NULL, &rawDataTextureCache);
+#endif
         if (err) 
         {
             NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreate");
